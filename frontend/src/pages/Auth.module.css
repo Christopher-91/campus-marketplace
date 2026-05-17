@@ -1,92 +1,177 @@
 .container {
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh - 68px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated background orbs */
+.container::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(233, 69, 96, 0.12) 0%, transparent 70%);
+  top: -100px;
+  right: -100px;
+  border-radius: 50%;
+  animation: float 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.container::after {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(108, 92, 231, 0.1) 0%, transparent 70%);
+  bottom: -80px;
+  left: -80px;
+  border-radius: 50%;
+  animation: float 10s ease-in-out infinite reverse;
+  pointer-events: none;
 }
 
 .card {
-  background: white;
-  border-radius: 16px;
-  padding: 2.5rem;
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 3rem;
   width: 100%;
-  max-width: 420px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 440px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.5s ease;
 }
 
 .card h1 {
-  font-size: 1.7rem;
-  color: #1a1a2e;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-heading);
   margin-bottom: 6px;
+  letter-spacing: -0.5px;
 }
 
 .subtitle {
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.95rem;
-  margin-bottom: 1.8rem;
+  margin-bottom: 2rem;
 }
 
 .error {
-  background: #ffe0e6;
-  color: #c0392b;
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
+  background: var(--error-bg);
+  color: var(--error);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: slideDown 0.3s ease;
 }
 
-form {
+.form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
-form label {
-  font-size: 0.85rem;
+.form label {
+  font-size: 0.82rem;
   font-weight: 600;
-  color: #444;
-  margin-top: 6px;
+  color: var(--text-secondary);
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-form input {
-  padding: 12px 14px;
-  border: 1.5px solid #ddd;
-  border-radius: 8px;
+.form input {
+  padding: 13px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   font-size: 0.95rem;
-  transition: border-color 0.2s;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
 }
 
-form input:focus {
+.form input:focus {
   outline: none;
-  border-color: #e94560;
+  border-color: var(--accent);
+  background: var(--bg-input-focus);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.form input::placeholder {
+  color: var(--text-muted);
 }
 
 .submitBtn {
-  margin-top: 16px;
-  background: #e94560;
+  margin-top: 20px;
+  background: var(--accent-gradient);
+  background-size: 200% 200%;
   color: white;
   border: none;
   padding: 14px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 1rem;
-  font-weight: 600;
-  transition: background 0.2s;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
 }
 
-.submitBtn:hover {
-  background: #c73652;
+.submitBtn:hover:not(:disabled) {
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+  animation: gradientShift 3s ease infinite;
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .switchLink {
   text-align: center;
-  margin-top: 1.2rem;
+  margin-top: 1.5rem;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-muted);
 }
 
 .switchLink a {
-  color: #e94560;
+  color: var(--accent);
   font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.switchLink a:hover {
+  color: var(--accent-hover);
+}
+
+/* Loading spinner inside button */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
 }

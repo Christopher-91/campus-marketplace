@@ -1,18 +1,21 @@
 .container {
   max-width: 960px;
-  margin: 2rem auto;
+  margin: 2.5rem auto;
   padding: 0 1.5rem;
+  animation: slideUp 0.5s ease;
 }
 
 .container h1 {
   font-size: 1.6rem;
-  color: #1a1a2e;
+  font-weight: 700;
+  color: var(--text-heading);
   margin-bottom: 1.5rem;
+  letter-spacing: -0.3px;
 }
 
 .layout {
   display: grid;
-  grid-template-columns: 1fr 320px;
+  grid-template-columns: 1fr 340px;
   gap: 2rem;
 }
 
@@ -23,21 +26,27 @@
 }
 
 .item {
-  background: white;
-  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   padding: 1rem;
   display: flex;
   align-items: center;
   gap: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  transition: all var(--transition-fast);
+}
+
+.item:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
 }
 
 .itemImage {
   width: 80px;
   height: 80px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
-  background: #f4f6fb;
+  background: var(--bg-secondary);
   flex-shrink: 0;
 }
 
@@ -61,49 +70,58 @@
 
 .itemInfo h3 {
   font-size: 1rem;
-  color: #1a1a2e;
+  font-weight: 600;
+  color: var(--text-heading);
   margin-bottom: 4px;
 }
 
 .itemInfo p {
   font-size: 0.82rem;
-  color: #888;
+  color: var(--text-muted);
   margin-bottom: 4px;
 }
 
 .itemPrice {
   font-weight: 700;
-  color: #e94560 !important;
+  color: var(--accent) !important;
   font-size: 1rem !important;
 }
 
 .removeBtn {
-  background: #f4f6fb;
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  color: #999;
+  background: var(--bg-glass);
+  border: 1px solid var(--border);
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
   font-size: 0.85rem;
-  transition: background 0.2s;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .removeBtn:hover {
-  background: #ffe0e6;
-  color: #e94560;
+  background: var(--error-bg);
+  border-color: rgba(231, 76, 60, 0.2);
+  color: var(--error);
 }
 
 .summary {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.8rem;
+  box-shadow: var(--shadow-sm);
   height: fit-content;
+  position: sticky;
+  top: 90px;
 }
 
 .summary h2 {
   font-size: 1.1rem;
-  color: #1a1a2e;
+  font-weight: 700;
+  color: var(--text-heading);
   margin-bottom: 1rem;
 }
 
@@ -111,85 +129,99 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
-  color: #555;
-  padding: 8px 0;
-  border-bottom: 1px solid #f0f2f8;
+  color: var(--text-secondary);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .free {
-  color: #27ae60;
+  color: var(--success);
   font-weight: 600;
 }
 
 .totalRow {
   font-weight: 700;
-  font-size: 1rem;
-  color: #1a1a2e;
+  font-size: 1.05rem;
+  color: var(--text-heading);
   border-bottom: none;
   margin-top: 4px;
 }
 
 .checkoutBtn {
   width: 100%;
-  background: #e94560;
+  background: var(--accent-gradient);
+  background-size: 200% 200%;
   color: white;
   border: none;
-  padding: 14px;
-  border-radius: 10px;
+  padding: 15px;
+  border-radius: var(--radius-md);
   font-size: 0.95rem;
-  font-weight: 600;
-  margin-top: 1rem;
-  transition: background 0.2s;
+  font-weight: 700;
+  margin-top: 1.2rem;
+  transition: all var(--transition-base);
 }
 
 .checkoutBtn:hover:not(:disabled) {
-  background: #c73652;
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+  animation: gradientShift 3s ease infinite;
 }
 
 .checkoutBtn:disabled {
   opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .note {
   font-size: 0.78rem;
-  color: #aaa;
+  color: var(--text-muted);
   text-align: center;
-  margin-top: 10px;
-  line-height: 1.5;
+  margin-top: 12px;
+  line-height: 1.6;
 }
 
 .empty,
 .success {
   text-align: center;
-  margin-top: 5rem;
+  margin-top: 6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  animation: fadeIn 0.5s ease;
 }
 
 .empty h2,
 .success h2 {
   font-size: 1.4rem;
-  color: #1a1a2e;
+  font-weight: 700;
+  color: var(--text-heading);
 }
 
 .empty p,
 .success p {
-  color: #888;
+  color: var(--text-muted);
   max-width: 400px;
+  line-height: 1.6;
 }
 
 .successIcon {
   font-size: 4rem;
+  animation: float 3s ease-in-out infinite;
 }
 
 .browseBtn {
-  background: #e94560;
+  background: var(--accent-gradient);
   color: white;
-  padding: 12px 28px;
-  border-radius: 10px;
-  font-weight: 600;
+  padding: 13px 30px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
   display: inline-block;
   margin-top: 8px;
+  transition: all var(--transition-base);
+}
+
+.browseBtn:hover {
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
 }

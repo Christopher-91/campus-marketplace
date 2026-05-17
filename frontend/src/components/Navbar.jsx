@@ -16,21 +16,21 @@ export default function Navbar() {
   return (
     <nav className={styles.navbar}>
       <Link to="/" className={styles.logo}>
-        🏫 CampusBazaar
+        CampusStore
       </Link>
       <div className={styles.links}>
         <Link to="/">Browse</Link>
         {user ? (
           <>
-            <Link to="/sell">+ Sell</Link>
-            <Link to="/orders">My Orders</Link>
+            <Link to="/sell" className={styles.sellLink}>+ Sell</Link>
+            <Link to="/orders">Orders</Link>
             <Link to="/cart" className={styles.cartLink}>
               🛒 Cart{" "}
               {cart.length > 0 && (
                 <span className={styles.badge}>{cart.length}</span>
               )}
             </Link>
-            <span className={styles.userName}>Hi, {user.name.split(" ")[0]}</span>
+            <span className={styles.userName}>{user.name.split(" ")[0]}</span>
             <button onClick={handleLogout} className={styles.logoutBtn}>
               Logout
             </button>

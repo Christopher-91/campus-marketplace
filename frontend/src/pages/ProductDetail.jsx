@@ -45,9 +45,9 @@ export default function ProductDetail() {
           <div className={styles.badges}>
             <span className={styles.badge}>🔖 {product.condition}</span>
             {product.is_sold ? (
-              <span className={`${styles.badge} ${styles.sold}`}>❌ Sold</span>
+              <span className={`${styles.badge} ${styles.sold}`}> Sold</span>
             ) : (
-              <span className={`${styles.badge} ${styles.available}`}>✅ Available</span>
+              <span className={`${styles.badge} ${styles.available}`}> Available</span>
             )}
           </div>
 
@@ -69,7 +69,7 @@ export default function ProductDetail() {
                 addToCart(product);
               }}
             >
-              {inCart ? "✅ Added to Cart" : "🛒 Add to Cart"}
+              {inCart ? "Added to Cart" : "🛒 Add to Cart"}
             </button>
           )}
 

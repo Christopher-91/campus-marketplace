@@ -7,30 +7,34 @@ import styles from "./Auth.module.css";
 export default function Register() {
   const [form, setForm] = useState({ name: "", college_email: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
     try {
       const res = await api.post("/auth/register", form);
       login(res.data.token, res.data.user);
       navigate("/");
     } catch (err) {
-      setError(err.response?.data?.error || "Registration failed");
+      setError(err.response?.data?.error || "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h1>Join Campus Bazaar 🏫</h1>
-        <p className={styles.subtitle}>Create your account</p>
+        <h1>Join CampusBazaar</h1>
+        <p className={styles.subtitle}>Create your account to start buying & selling</p>
 
-        {error && <div className={styles.error}>{error}</div>}
+        {error && <div className={styles.error}>⚠️ {error}</div>}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={styles.form}>
           <label>Full Name</label>
           <input
             type="text"
@@ -54,8 +58,11 @@ export default function Register() {
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
             required
+            minLength={6}
           />
-          <button type="submit" className={styles.submitBtn}>Create Account</button>
+          <button type="submit" className={styles.submitBtn} disabled={loading}>
+            {loading ? <><span className={styles.spinner}></span>Creating Account...</> : "Create Account"}
+          </button>
         </form>
 
         <p className={styles.switchLink}>
