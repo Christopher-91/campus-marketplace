@@ -17,7 +17,6 @@ export default function Home() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  // Debounce: wait 300ms after user stops typing
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
@@ -136,7 +135,6 @@ export default function Home() {
           </button>
         </aside>
 
-        {/* Main Content */}
         <main className={styles.main}>
           {loading ? (
             <div className={styles.loading}>
@@ -159,7 +157,6 @@ export default function Home() {
             </div>
           )}
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className={styles.pagination}>
               <button disabled={page === 1} onClick={() => setPage(page - 1)}>← Prev</button>

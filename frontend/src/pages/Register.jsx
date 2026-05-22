@@ -29,7 +29,7 @@ export default function Register() {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h1>Join CampusBazaar</h1>
+        <h1>Join CampusStore</h1>
         <p className={styles.subtitle}>Create your account to start buying & selling</p>
 
         {error && <div className={styles.error}>⚠️ {error}</div>}

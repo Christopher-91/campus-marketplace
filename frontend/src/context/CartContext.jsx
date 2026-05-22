@@ -8,7 +8,7 @@ export function CartProvider({ children }) {
   const addToCart = (product) => {
     setCart((prev) => {
       const exists = prev.find((p) => p.product_id === product.product_id);
-      if (exists) return prev; // already in cart
+      if (exists) return prev;
       return [...prev, product];
     });
   };
