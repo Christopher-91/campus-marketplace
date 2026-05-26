@@ -69,24 +69,6 @@ export default function Home() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div className={styles.heroStats}>
-            <div className={styles.stat}>
-              <span className={styles.statNumber}>📚</span>
-              <span className={styles.statLabel}>Books</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statNumber}>💻</span>
-              <span className={styles.statLabel}>Electronics</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statNumber}>🪑</span>
-              <span className={styles.statLabel}>Furniture</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statNumber}>🔬</span>
-              <span className={styles.statLabel}>Lab Gear</span>
-            </div>
-          </div>
         </div>
       </section>
 

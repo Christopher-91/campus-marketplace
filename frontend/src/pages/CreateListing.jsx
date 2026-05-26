@@ -114,7 +114,7 @@ export default function CreateListing() {
           </div>
 
           <button type="submit" className={styles.submitBtn} disabled={loading}>
-            {loading ? "Uploading..." : "📤 Post Listing"}
+            {loading ? "Uploading..." : "Post Listing"}
           </button>
         </form>
       </div>

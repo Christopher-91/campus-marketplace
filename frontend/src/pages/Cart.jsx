@@ -96,7 +96,7 @@ export default function Cart() {
             <span>₹{total.toLocaleString()}</span>
           </div>
           <button className={styles.checkoutBtn} onClick={handleCheckout} disabled={loading}>
-            {loading ? "Processing..." : "✅ Checkout — Contact Sellers"}
+            {loading ? "Processing..." : "Checkout — Contact Sellers"}
           </button>
           <p className={styles.note}>
             Sellers will receive an email with your contact. Meet on campus to exchange.
