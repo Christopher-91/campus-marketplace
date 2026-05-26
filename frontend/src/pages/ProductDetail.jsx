@@ -9,6 +9,7 @@ export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
   const { addToCart, cart } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -19,6 +20,18 @@ export default function ProductDetail() {
       .catch(() => navigate("/"))
       .finally(() => setLoading(false));
   }, [id]);
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this listing? This cannot be undone.")) return;
+    setDeleting(true);
+    try {
+      await api.delete(`/products/${id}`);
+      navigate("/");
+    } catch (err) {
+      alert(err.response?.data?.error || "Failed to delete listing");
+      setDeleting(false);
+    }
+  };
 
   if (loading) return <div className={styles.loading}>Loading...</div>;
   if (!product) return null;
@@ -74,7 +87,16 @@ export default function ProductDetail() {
           )}
 
           {isOwner && (
-            <p className={styles.ownerNote}>This is your listing.</p>
+            <div className={styles.ownerActions}>
+              <p className={styles.ownerNote}>This is your listing</p>
+              <button
+                className={styles.deleteBtn}
+                onClick={handleDelete}
+                disabled={deleting}
+              >
+                {deleting ? "Deleting..." : "🗑️ Delete Listing"}
+              </button>
+            </div>
           )}
         </div>
       </div>

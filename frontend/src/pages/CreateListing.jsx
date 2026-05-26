@@ -32,9 +32,7 @@ export default function CreateListing() {
       Object.entries(form).forEach(([k, v]) => formData.append(k, v));
       if (image) formData.append("image", image);
 
-      const res = await api.post("/products", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const res = await api.post("/products", formData);
       navigate(`/product/${res.data.product_id}`);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to create listing");
