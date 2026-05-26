@@ -12,7 +12,8 @@ db.exec(`
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     college_email TEXT UNIQUE NOT NULL,
-    password_hash TEXT NOT NULL,
+    password_hash TEXT,
+    auth_provider TEXT DEFAULT 'local',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
 
@@ -40,5 +41,8 @@ db.exec(`
     FOREIGN KEY (product_id) REFERENCES products(product_id)
   );
 `);
+
+// Migrations — safe to re-run (catches "duplicate column" errors)
+try { db.exec("ALTER TABLE users ADD COLUMN auth_provider TEXT DEFAULT 'local'"); } catch (e) { /* column already exists */ }
 
 module.exports = db;
