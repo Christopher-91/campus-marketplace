@@ -18,11 +18,25 @@ export default function Cart() {
     if (!user) { navigate("/login"); return; }
     setLoading(true);
     try {
+      const emailResults = [];
       for (const product of cart) {
-        await api.post("/orders", { product_id: product.product_id });
+        const res = await api.post("/orders", { product_id: product.product_id });
+        emailResults.push(res.data.email);
       }
       clearCart();
-      setSuccessMsg("🎉 Orders placed! Sellers have been emailed. Check your campus inbox for meetup details.");
+      const sentCount = emailResults.filter((email) => email?.sent).length;
+      const failedCount = emailResults.filter((email) => email?.status === "failed").length;
+      const skippedCount = emailResults.filter((email) => email?.status === "not_configured").length;
+
+      if (sentCount === emailResults.length) {
+        setSuccessMsg("🎉 Orders placed! Sellers have been emailed with your contact details.");
+      } else if (failedCount > 0) {
+        setSuccessMsg("Orders placed, but one or more seller emails failed. The seller can still see your purchase request in their Orders page.");
+      } else if (skippedCount > 0) {
+        setSuccessMsg("Orders placed, but seller email is not configured on the backend. The seller can still see your purchase request in their Orders page.");
+      } else {
+        setSuccessMsg("Orders placed. The seller can see your purchase request in their Orders page.");
+      }
     } catch (err) {
       alert(err.response?.data?.error || "Checkout failed");
     } finally {
@@ -99,7 +113,7 @@ export default function Cart() {
             {loading ? "Processing..." : "Checkout — Contact Sellers"}
           </button>
           <p className={styles.note}>
-            Sellers will receive an email with your contact. Meet on campus to exchange.
+            Checkout creates an order and sends your contact to each seller when email is available.
           </p>
         </div>
       </div>

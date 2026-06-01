@@ -4,23 +4,50 @@ import api from "../api";
 import styles from "./MyOrders.module.css";
 
 export default function MyOrders() {
-  const [orders, setOrders] = useState([]);
+  const [purchases, setPurchases] = useState([]);
+  const [sales, setSales] = useState([]);
+  const [activeTab, setActiveTab] = useState("buying");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    api.get("/orders/my")
-      .then((res) => setOrders(res.data))
+    Promise.all([api.get("/orders/my"), api.get("/orders/sales")])
+      .then(([purchaseRes, salesRes]) => {
+        setPurchases(purchaseRes.data);
+        setSales(salesRes.data);
+      })
+      .catch((err) => {
+        setError(err.response?.data?.error || "Unable to load orders.");
+      })
       .finally(() => setLoading(false));
   }, []);
 
   if (loading) return <div className={styles.loading}>Loading orders...</div>;
 
+  const orders = activeTab === "buying" ? purchases : sales;
+  const emptyText = activeTab === "buying" ? "No purchases yet." : "No purchase requests yet.";
+
   return (
     <div className={styles.container}>
       <h1>My Orders</h1>
+      <div className={styles.tabs}>
+        <button
+          className={activeTab === "buying" ? styles.activeTab : ""}
+          onClick={() => setActiveTab("buying")}
+        >
+          Buying ({purchases.length})
+        </button>
+        <button
+          className={activeTab === "selling" ? styles.activeTab : ""}
+          onClick={() => setActiveTab("selling")}
+        >
+          Selling ({sales.length})
+        </button>
+      </div>
+      {error && <p className={styles.error}>{error}</p>}
       {orders.length === 0 ? (
         <div className={styles.empty}>
-          <p>No orders yet.</p>
+          <p>{emptyText}</p>
           <Link to="/">Start shopping →</Link>
         </div>
       ) : (
@@ -36,6 +63,11 @@ export default function MyOrders() {
                 <h3>{order.title}</h3>
                 <p>{order.category}</p>
                 <p className={styles.price}>₹{order.price.toLocaleString()}</p>
+                {activeTab === "buying" ? (
+                  <p>Seller: {order.seller_name} · {order.seller_email}</p>
+                ) : (
+                  <p>Buyer: {order.buyer_name} · {order.buyer_email}</p>
+                )}
               </div>
               <div className={styles.orderMeta}>
                 <span className={`${styles.status} ${order.status === "Pending" ? styles.pending : styles.done}`}>

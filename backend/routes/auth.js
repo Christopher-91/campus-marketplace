@@ -117,12 +117,13 @@ router.post("/google", async (req, res) => {
         db.prepare("UPDATE users SET auth_provider = 'google' WHERE user_id = ?").run(user.user_id);
       }
     } else {
-      // New user — create account (no password needed)
+      // New user — create account with a random unusable password hash
+      const randomHash = bcrypt.hashSync(require("crypto").randomUUID(), 10);
       const result = db
         .prepare(
-          "INSERT INTO users (name, college_email, password_hash, auth_provider) VALUES (?, ?, NULL, 'google')"
+          "INSERT INTO users (name, college_email, password_hash, auth_provider) VALUES (?, ?, ?, 'google')"
         )
-        .run(name || email.split("@")[0], email);
+        .run(name || email.split("@")[0], email, randomHash);
 
       user = {
         user_id: Number(result.lastInsertRowid),
